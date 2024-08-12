@@ -2,6 +2,13 @@
 {
 	public class Translate
 	{
+		private Dictionary<string, string> _dictionaryTranslate;
+
+		public Translate()
+		{
+			this._dictionaryTranslate = new Dictionary<string, string>();
+		}
+
 		public void PrintMenu()
 		{
 			const uint NUMBER_EXIT_MENU_ELEMENT = 6;
@@ -17,7 +24,7 @@
 				Console.WriteLine("4. Delete word from dictionary");
 				Console.WriteLine("5. Delete word from dictionary");
 
-				Console.Write("Выберите пункт меню: ");
+				Console.WriteLine("Выберите пункт меню:");
 				ConsoleKeyInfo userInputSymbol;
 
 				do
@@ -28,9 +35,21 @@
 				numberMenuElement = Convert.ToInt32(userInputSymbol.KeyChar.ToString());
 
 				switch (numberMenuElement)
-				{
+				{ 
+					case 2:
+						Console.WriteLine("Set new word:");
+						string newWord = Console.ReadLine();
+						Console.WriteLine("Set translation of new word:");
+						string translatedWord = Console.ReadLine();
+						this.AddWord(newWord, translatedWord);
+						break;
 				}
 			}
+		}
+
+		private void AddWord(string newWord, string translatedWord)
+		{
+			this._dictionaryTranslate.Add(newWord, translatedWord);
 		}
 	}
 }
