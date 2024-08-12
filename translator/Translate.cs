@@ -37,9 +37,9 @@
 				switch (numberMenuElement)
 				{ 
 					case 2:
-						Console.WriteLine("Type in new word:");
+						Console.WriteLine("Type in new word:\n");
 						string newWord = Console.ReadLine();
-						Console.WriteLine("Type in translation of new word:");
+						Console.WriteLine("Type in translation of new word:\n");
 						string translatedWord = Console.ReadLine();
 						this.AddWord(newWord, translatedWord);
 						break;
