@@ -47,7 +47,7 @@
 			}
 		}
 
-		public void AddWord(string newWord, string translatedWord)
+		private void AddWord(string newWord, string translatedWord)
 		{
 			this._dictionary.Add(newWord, translatedWord);
 		}
