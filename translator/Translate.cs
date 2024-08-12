@@ -24,7 +24,7 @@
 				Console.WriteLine("4. Delete word from dictionary");
 				Console.WriteLine("5. Delete word from dictionary");
 
-				Console.Write("Выберите пункт меню: ");
+				Console.Write("Выберите пункт меню: \n");
 				ConsoleKeyInfo userInputSymbol;
 
 				do
