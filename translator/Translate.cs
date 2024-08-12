@@ -2,6 +2,13 @@
 {
 	public class Translate
 	{
+		private Dictionary<string, string> _loadDict;
+
+		public Translate()
+		{
+			this._loadDict = new Dictionary<string, string>();
+		}
+
 		public void PrintMenu()
 		{
 			const uint NUMBER_EXIT_MENU_ELEMENT = 6;
@@ -28,9 +35,21 @@
 				numberMenuElement = Convert.ToInt32(userInputSymbol.KeyChar.ToString());
 
 				switch (numberMenuElement)
-				{
+				{ 
+					case 2:
+						Console.WriteLine("Type in new word:");
+						string newWord = Console.ReadLine();
+						Console.WriteLine("Type in translation of new word:");
+						string translatedWord = Console.ReadLine();
+						this.AddWord(newWord, translatedWord);
+						break;
 				}
 			}
+		}
+
+		public void AddWord(string newWord, string translatedWord)
+		{
+			this._loadDict.Add(newWord, translatedWord);
 		}
 	}
 }
