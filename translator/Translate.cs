@@ -2,11 +2,11 @@
 {
 	public class Translate
 	{
-		private Dictionary<string, string> _dictionary;
+		private Dictionary<string, string> _dictionarytranslate;
 
 		public Translate()
 		{
-			this._dictionary = new Dictionary<string, string>();
+			this._dictionarytranslate = new Dictionary<string, string>();
 		}
 
 		public void PrintMenu()
@@ -49,7 +49,7 @@
 
 		private void AddWord(string newWord, string translatedWord)
 		{
-			this._dictionary.Add(newWord, translatedWord);
+			this._dictionarytranslate.Add(newWord, translatedWord);
 		}
 	}
 }
