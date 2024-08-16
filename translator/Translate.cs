@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace translator
+﻿namespace translator
 {
 	public class Translate
 	{
@@ -47,32 +45,65 @@ namespace translator
 						this.AddWord(newWord, translatedWord);
 						break;
 
+					case 4:
+						Console.WriteLine("Enter delete world:");
+						string deletedWord = Console.ReadLine();
+
+						if (this.DeleteWord(deletedWord))
+						{
+							Console.WriteLine("The required word has been deleted");
+						}
+						else
+						{
+							Console.WriteLine("The required word was not found");
+						}
+
+						break;
+
 					case 5:
 						Console.WriteLine("Type in the word to be translated");
 						string searchWord = Console.ReadLine();
-						if (FindWord(searchWord))
+
+						if (this.FindWord(searchWord))
 						{
-                            Console.WriteLine("Translation of the word found");
-                        }
+							Console.WriteLine("Translation of the word found");
+						}
 						else
 						{
-                            Console.WriteLine("Translation of word not found");
-                        }
+							Console.WriteLine("Translation of word not found");
+						}
+
 						break;
 				}
 			}
 		}
+
 		private void AddWord(string newWord, string translatedWord)
 		{
 			this._dictionaryTranslate.Add(newWord, translatedWord);
 		}
 
-        /*!
+		/*! 
+		* @brief Remove word from dictionaty.
+		* @param[in] Word who deleting from dictionary.
+		* @return True - word was deleted; False - word not deleted.
+		*/
+		private bool DeleteWord(string deletedWord)
+		{
+			if (this._dictionaryTranslate.ContainsKey(deletedWord))
+			{
+				return this._dictionaryTranslate.Remove(deletedWord);
+			}
+
+			return false;
+		}
+
+		/*!
 		 * @brief Searching words in the dictionary
 		 * @param[in] searchWord Word for searching
 		 * @return True - word is found; False - word not found.
 		 */
-        private bool FindWord(string searchWord)
+		private bool FindWord(string searchWord)
 		{
 			if (this._dictionaryTranslate.ContainsKey(searchWord))
 			{
