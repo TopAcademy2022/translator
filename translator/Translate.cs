@@ -23,6 +23,7 @@
 				Console.WriteLine("3. Replace word in dictionary");
 				Console.WriteLine("4. Delete word from dictionary");
 				Console.WriteLine("5. Find word from dictionary");
+				Console.WriteLine("6. Load dictionary from file");
 
 				Console.WriteLine("Выберите пункт меню:");
 				ConsoleKeyInfo userInputSymbol;
@@ -31,7 +32,7 @@
 				{
 					userInputSymbol = Console.ReadKey(true);
 				}
-				while (userInputSymbol.Key < ConsoleKey.D0 || userInputSymbol.Key > ConsoleKey.D5);
+				while (userInputSymbol.Key < ConsoleKey.D0 || userInputSymbol.Key > ConsoleKey.D8);
 
 				numberMenuElement = Convert.ToInt32(userInputSymbol.KeyChar.ToString());
 
@@ -74,6 +75,20 @@
 						}
 
 						break;
+
+					case 6:
+						Console.WriteLine("Enter the path to the file");
+						string filePath = Console.ReadLine();
+						if (LoadDictionaryFile(filePath))
+						{
+							Console.WriteLine("File found.");
+						}
+						else
+						{
+							Console.WriteLine("File not found.");
+						}
+		 
+						break;
 				}
 			}
 		}
@@ -107,6 +122,26 @@
 		{
 			if (this._dictionaryTranslate.ContainsKey(searchWord))
 			{
+				return true;
+			}
+
+			return false;
+		}
+
+		/*!
+		* @brief Load dictionary from file
+		* @param[in] filePath File path
+		* @return True - file found and uploaded to dictionary; False -file not found.
+		*/
+		public bool LoadDictionaryFile(string filePath)
+		{
+			if (File.Exists(filePath)) //!< File opening check
+			{ 
+				foreach (string[] item in File.ReadAllLines(filePath).Select(line => line.Split('-')))
+				{  
+					this._dictionaryTranslate.Add(item[0], item[1]); 
+				} //!< Dictionary entry
+
 				return true;
 			}
 
