@@ -25,6 +25,7 @@
 				Console.WriteLine("5. Find word from dictionary");
 				Console.WriteLine("6. Load dictionary from file");
 				Console.WriteLine("7. Save dictionary to file");
+				Console.WriteLine("8. Print a dictionary to the console");
 
 				Console.WriteLine("Выберите пункт меню:");
 				ConsoleKeyInfo userInputSymbol;
@@ -79,6 +80,8 @@
 							Console.WriteLine("The required word was not found");
 						}
 
+						Console.ReadKey();
+
 						break;
 
 					case 5:
@@ -112,16 +115,22 @@
 
 					case 7:
 						Console.WriteLine("Set file name:");
-						string fileName = Console.ReadLine();
+						string saveFileName = Console.ReadLine();
 
-						if (this.SaveFile(fileName))
+						if (this.SaveFile(saveFileName))
 						{
-							Console.WriteLine($"The File {fileName} was saved successfully.");
+							Console.WriteLine($"The File {saveFileName} was saved successfully.");
 						}
 						else
 						{
 							Console.WriteLine($"Error in saving.");
 						}
+
+						break;
+
+					case 8:
+						this.PrintDictionary();
+						Console.ReadKey();
 
 						break;
 				}
@@ -180,7 +189,7 @@
 			return false; // Ошибка при создании
 		}
 
-		private void AddWord(string newWord, string translatedWord)
+		public void AddWord(string newWord, string translatedWord)
 		{
 			this._dictionaryTranslate.Add(newWord, translatedWord);
 		}
@@ -190,7 +199,7 @@
 		* @param[in] Word who deleting from dictionary.
 		* @return True - word was deleted; False - word not deleted.
 		*/
-		private bool DeleteWord(string deletedWord)
+		public bool DeleteWord(string deletedWord)
 		{
 			if (this._dictionaryTranslate.ContainsKey(deletedWord))
 			{
@@ -200,12 +209,25 @@
 			return false;
 		}
 
+		/*! 
+		* @brief Output a dictionary to the console.
+		* @param[in] Word who output from dictionary.
+		* @return True - the words are in the dictionary; False - the words are not in the dictionary.
+		*/
+		public void PrintDictionary()
+		{
+			foreach (var oneRow in this._dictionaryTranslate)
+			{
+				Console.WriteLine($"{oneRow.Key}-{oneRow.Value}");
+			}
+		}
+
 		/*!
 		 * @brief Searching words in the dictionary
 		 * @param[in] searchWord Word for searching
 		 * @return True - word is found; False - word not found.
 		 */
-		private bool FindWord(string searchWord)
+		public bool FindWord(string searchWord)
 		{
 			if (this._dictionaryTranslate.ContainsKey(searchWord))
 			{
@@ -241,7 +263,7 @@
 		 * @param[in] Setting folderName and format as default manually.
 		 * @return True - File was successfully saved; False - Error in saving file.
 		 */
-		private bool SaveFile(string fileName, string folderName = "DictionaryTranslate", string format = ".lge")
+		public bool SaveFile(string fileName, string folderName = "DictionaryTranslate", string format = ".lge")
 		{
 			// Getting Path of File
 			string filePath = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName), fileName + format);
