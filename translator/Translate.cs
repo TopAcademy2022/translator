@@ -38,6 +38,25 @@
 
 				switch (numberMenuElement)
 				{
+					case 1:
+						Console.WriteLine("Set file name: ");
+						string fileName = Console.ReadLine();
+
+						Console.WriteLine("Specify the path to the folder: ");
+						string destinationDirectory = Console.ReadLine();
+
+						if (СreateFile(fileName, destinationDirectory))
+						{
+							Console.WriteLine($"Файл '{fileName}' создан.");
+						}
+						else
+						{
+							Console.WriteLine($"Ошибка.");
+						}
+						Console.ReadKey();
+
+						break;
+
 					case 2:
 						Console.WriteLine("Set new word:");
 						string newWord = Console.ReadLine();
@@ -91,6 +110,58 @@
 						break;
 				}
 			}
+		}
+
+		public bool СreateFile(string fileName, string folderPath, string format = ".lge")
+		{
+			try
+			{
+				// 1. Проверка на существование папки
+				string directoryPath = Path.GetDirectoryName(folderPath);
+				if (!Directory.Exists(directoryPath))
+				{
+					Console.WriteLine($"Папка '{directoryPath}' не существует. Файл не создан.");
+				}
+				else if (File.Exists(folderPath))
+				{
+					// 2. Проверка на существование файла
+					Console.WriteLine($"Файл '{fileName}' уже существует.");
+				}
+				else if (string.IsNullOrEmpty(fileName))
+				{
+					// 3. Проверка на пустое имя файла
+					Console.WriteLine("Имя файла не может быть пустым.");
+				}
+				else if (Path.GetInvalidFileNameChars().Any(c => fileName.Contains(c)))
+				{
+					// 4. Проверка на некорректные символы в имени файла
+					Console.WriteLine("Имя файла содержит недопустимые символы.");
+				}
+				else if (string.IsNullOrWhiteSpace(format) || !format.StartsWith("."))
+				{
+					//5. Проверка на наличие расширения формата
+					Console.WriteLine($"В формате {format} отсутствует точка.");
+				}
+				else if (!format.Equals(".lge"))
+				{
+					// 6. Проверка на правильный формат файла
+					Console.WriteLine("Неверный формат файла. Допустимый формат: '.lge'.");
+				}
+				else
+				{
+                    //Создание файла и папки
+                    Directory.CreateDirectory(folderPath);
+                    using (FileStream file = File.Create(Path.Combine(folderPath, fileName + format))) { }
+                    return true; // Файл создан успешно
+                }
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Ошибка при создании файла: " + ex.Message);
+			}
+
+			Console.ReadKey();
+			return false; // Ошибка при создании
 		}
 
 		private void AddWord(string newWord, string translatedWord)
