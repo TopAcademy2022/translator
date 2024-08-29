@@ -91,6 +91,28 @@ namespace translator
 						Console.ReadKey();
 						break;
 
+					case 3:
+						Console.WriteLine("Set replaced world:");
+						string? replacedWord = Console.ReadLine();
+
+						Console.WriteLine("Set new word:");
+						string? additionalWord = Console.ReadLine();
+
+						if (!String.IsNullOrEmpty(replacedWord) && !String.IsNullOrEmpty(additionalWord))
+						{
+							if (this.ReplaceWordInDictionary(replacedWord, additionalWord))
+							{
+								Console.WriteLine("Word successfully replaced.");
+							}
+							else
+							{
+								Console.WriteLine("Word not replaced.");
+							}
+						}
+						
+						Console.ReadKey();
+						break;
+
 					case 4:
 						Console.WriteLine("Enter delete world:");
 						string? deletedWord = Console.ReadLine();
@@ -327,6 +349,26 @@ namespace translator
 				}
 
 				return true;
+			}
+
+			return false;
+		}
+
+		/*!
+		 * @brief Replace word in dictionary.
+		 * @param[in] oldWord Old word in dictionary.
+		 * @param[in] nWord New word for adding in dictionary.
+		 * @return True - old word was successfully replaced; False - error old word not was successfully replaced.
+		*/
+		public bool ReplaceWordInDictionary(string oldWord, string nWord)
+		{
+			if (oldWord != nWord)
+			{
+				if (this._dictionaryTranslate.ContainsKey(oldWord))
+				{
+					this._dictionaryTranslate.Add(nWord, this._dictionaryTranslate[oldWord]);
+					return this._dictionaryTranslate.Remove(oldWord);
+				}
 			}
 
 			return false;
