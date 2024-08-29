@@ -1,17 +1,26 @@
-﻿namespace translator
+﻿using Microsoft.Extensions.Logging;
+
+namespace translator
 {
 	public class Translate
 	{
-		private Dictionary<string, string> _dictionaryTranslate;
+		private ILogger<Translate> _logger;
+
+		private readonly Dictionary<string, string> _dictionaryTranslate;
+
+		public IReadOnlyDictionary<string, string> DictionaryTranslate => this._dictionaryTranslate;
 
 		public Translate()
 		{
+			using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+			this._logger = factory.CreateLogger<Translate>();
+
 			this._dictionaryTranslate = new Dictionary<string, string>();
 		}
 
 		public void PrintMenu()
 		{
-			const uint NUMBER_EXIT_MENU_ELEMENT = 6;
+			const uint NUMBER_EXIT_MENU_ELEMENT = 9;
 			int numberMenuElement = 0;
 
 			while (numberMenuElement != NUMBER_EXIT_MENU_ELEMENT)
@@ -26,167 +35,193 @@
 				Console.WriteLine("6. Load dictionary from file");
 				Console.WriteLine("7. Save dictionary to file");
 				Console.WriteLine("8. Print a dictionary to the console");
+				Console.WriteLine("9. Exit");
 
-				Console.WriteLine("Выберите пункт меню:");
+				Console.WriteLine("\nВыберите пункт меню:");
 				ConsoleKeyInfo userInputSymbol;
 
 				do
 				{
 					userInputSymbol = Console.ReadKey(true);
 				}
-				while (userInputSymbol.Key < ConsoleKey.D0 || userInputSymbol.Key > ConsoleKey.D8);
+				while (userInputSymbol.Key < ConsoleKey.D0 || userInputSymbol.Key > ConsoleKey.D9);
 
 				numberMenuElement = Convert.ToInt32(userInputSymbol.KeyChar.ToString());
 
 				switch (numberMenuElement)
 				{
 					case 1:
-						Console.WriteLine("Set file name: ");
-						string fileName = Console.ReadLine();
+						Console.WriteLine("Set file name:");
+						string? fileName = Console.ReadLine();
 
-						Console.WriteLine("Specify the path to the folder: ");
-						string destinationDirectory = Console.ReadLine();
+						Console.WriteLine("Specify the path to the folder:");
+						string? destinationDirectory = Console.ReadLine();
 
-						if (СreateFile(fileName, destinationDirectory))
+						if (!String.IsNullOrEmpty(fileName) && !String.IsNullOrEmpty(destinationDirectory))
 						{
-							Console.WriteLine($"Файл '{fileName}' создан.");
+							if (СreateFile(fileName, destinationDirectory))
+							{
+								Console.WriteLine($"File '{fileName}' has been created.");
+							}
+							else
+							{
+								Console.WriteLine("Error, file not created.");
+							}
 						}
-						else
-						{
-							Console.WriteLine($"Ошибка.");
-						}
+
 						Console.ReadKey();
-
 						break;
 
 					case 2:
 						Console.WriteLine("Set new word:");
-						string newWord = Console.ReadLine();
+						string? newWord = Console.ReadLine();
+
 						Console.WriteLine("Set translation of new word:");
-						string translatedWord = Console.ReadLine();
-						this.AddWord(newWord, translatedWord);
+						string? translatedWord = Console.ReadLine();
+
+						if (!String.IsNullOrEmpty(newWord) && !String.IsNullOrEmpty(translatedWord))
+						{
+							this.AddWord(newWord, translatedWord);
+						}
+						else
+						{
+							Console.WriteLine("Error, word not adding.");
+						}
+
+						Console.ReadKey();
 						break;
 
 					case 4:
 						Console.WriteLine("Enter delete world:");
-						string deletedWord = Console.ReadLine();
+						string? deletedWord = Console.ReadLine();
 
-						if (this.DeleteWord(deletedWord))
+						if (!String.IsNullOrEmpty(deletedWord))
 						{
-							Console.WriteLine("The required word has been deleted");
-						}
-						else
-						{
-							Console.WriteLine("The required word was not found");
+							if (this.DeleteWord(deletedWord))
+							{
+								Console.WriteLine("The required word has been deleted.");
+							}
+							else
+							{
+								Console.WriteLine("The required word was not found.");
+							}
 						}
 
 						Console.ReadKey();
-
 						break;
 
 					case 5:
 						Console.WriteLine("Type in the word to be translated");
-						string searchWord = Console.ReadLine();
+						string? searchWord = Console.ReadLine();
 
-						if (this.FindWord(searchWord))
+						if (!String.IsNullOrEmpty(searchWord))
 						{
-							Console.WriteLine("Translation of the word found");
-						}
-						else
-						{
-							Console.WriteLine("Translation of word not found");
+							if (this.FindWord(searchWord))
+							{
+								Console.WriteLine("Translation of the word found");
+							}
+							else
+							{
+								Console.WriteLine("Translation of word not found");
+							}
 						}
 
+						Console.ReadKey();
 						break;
 
 					case 6:
-						Console.WriteLine("Enter the path to the file");
-						string filePath = Console.ReadLine();
-						if (LoadDictionaryFile(filePath))
+						Console.WriteLine("Enter the path to the file:");
+						string? loadFileName = Console.ReadLine();
+
+						Console.WriteLine("Specify the path to the folder:");
+						string? loadFileDirectory = Console.ReadLine();
+
+						if (!String.IsNullOrEmpty(loadFileName) && !String.IsNullOrEmpty(loadFileDirectory))
 						{
-							Console.WriteLine("File found.");
+							if (LoadDictionaryFile(loadFileName, loadFileDirectory))
+							{
+								Console.WriteLine("File has been loading.");
+							}
+							else
+							{
+								Console.WriteLine("File not found.");
+							}
 						}
-						else
-						{
-							Console.WriteLine("File not found.");
-						}
-		 
+
+						Console.ReadKey();
 						break;
 
 					case 7:
-						Console.WriteLine("Set file name:");
-						string saveFileName = Console.ReadLine();
+						Console.WriteLine("Enter the save file name:");
+						string? saveFileName = Console.ReadLine();
 
-						if (this.SaveFile(saveFileName))
+						Console.WriteLine("Specify the path to the save folder:");
+						string? saveFileDirectory = Console.ReadLine();
+
+						if (!String.IsNullOrEmpty(saveFileName) && !String.IsNullOrEmpty(saveFileDirectory))
 						{
-							Console.WriteLine($"The File {saveFileName} was saved successfully.");
-						}
-						else
-						{
-							Console.WriteLine($"Error in saving.");
+							if (this.SaveDataToFile(saveFileName, saveFileDirectory))
+							{
+								Console.WriteLine($"The file {saveFileName} was saved successfully.");
+							}
+							else
+							{
+								Console.WriteLine($"Error in saving.");
+							}
 						}
 
+						Console.ReadKey();
 						break;
 
 					case 8:
 						this.PrintDictionary();
-						Console.ReadKey();
 
+						Console.ReadKey();
 						break;
 				}
 			}
 		}
 
-		public bool СreateFile(string fileName, string folderPath, string format = ".lge")
+		public bool СreateFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge")
 		{
 			try
 			{
-				// 1. Проверка на существование папки
-				string directoryPath = Path.GetDirectoryName(folderPath);
-				if (!Directory.Exists(directoryPath))
+				if (Path.GetInvalidPathChars().Any(symbol => directory.Contains(symbol)))
 				{
-					Console.WriteLine($"Папка '{directoryPath}' не существует. Файл не создан.");
+					throw new Exception("Directory name contains invalid characters.");
 				}
-				else if (File.Exists(folderPath))
+				else if (!Directory.Exists(directory))
 				{
-					// 2. Проверка на существование файла
-					Console.WriteLine($"Файл '{fileName}' уже существует.");
+					Directory.CreateDirectory(directory);
 				}
-				else if (string.IsNullOrEmpty(fileName))
+				if (string.IsNullOrEmpty(fileName))
 				{
-					// 3. Проверка на пустое имя файла
-					Console.WriteLine("Имя файла не может быть пустым.");
+					throw new Exception("File name is empty.");
 				}
-				else if (Path.GetInvalidFileNameChars().Any(c => fileName.Contains(c)))
+				else if (Path.GetInvalidFileNameChars().Any(symbol => fileName.Contains(symbol)))
 				{
-					// 4. Проверка на некорректные символы в имени файла
-					Console.WriteLine("Имя файла содержит недопустимые символы.");
+					throw new Exception("File name contains invalid characters.");
 				}
 				else if (string.IsNullOrWhiteSpace(format) || !format.StartsWith("."))
 				{
-					//5. Проверка на наличие расширения формата
-					Console.WriteLine($"В формате {format} отсутствует точка.");
+					throw new Exception("Incorrect file format.");
 				}
-				else if (!format.Equals(".lge"))
+				else if (File.Exists(Path.Combine(directory, fileName + format)))
 				{
-					// 6. Проверка на правильный формат файла
-					Console.WriteLine("Неверный формат файла. Допустимый формат: '.lge'.");
+					throw new Exception("File already exists.");
 				}
 				else
 				{
-					//Создание файла и папки
-					Directory.CreateDirectory(folderPath);
-					using (FileStream file = File.Create(Path.Combine(folderPath, fileName + format))) {}
-					return true; // Файл создан успешно
+					using (FileStream file = File.Create(Path.Combine(directory, fileName + format))) { }
+					return true;
 				}
 			}
-			catch (Exception ex)
+			catch (Exception exception)
 			{
-				Console.WriteLine("Ошибка при создании файла: " + ex.Message);
+				this._logger.LogError(exception.Message);
 			}
 
-			Console.ReadKey();
-			return false; // Ошибка при создании
+			return false;
 		}
 
 		public void AddWord(string newWord, string translatedWord)
@@ -196,7 +231,7 @@
 
 		/*! 
 		* @brief Remove word from dictionaty.
-		* @param[in] Word who deleting from dictionary.
+		* @param[in] deletedWord Word who deleting from dictionary.
 		* @return True - word was deleted; False - word not deleted.
 		*/
 		public bool DeleteWord(string deletedWord)
@@ -211,14 +246,19 @@
 
 		/*! 
 		* @brief Output a dictionary to the console.
-		* @param[in] Word who output from dictionary.
-		* @return True - the words are in the dictionary; False - the words are not in the dictionary.
 		*/
 		public void PrintDictionary()
 		{
-			foreach (var oneRow in this._dictionaryTranslate)
+			if (this._dictionaryTranslate.Count() > 0)
 			{
-				Console.WriteLine($"{oneRow.Key}-{oneRow.Value}");
+				foreach (KeyValuePair<string, string> oneRow in this._dictionaryTranslate)
+				{
+					Console.WriteLine($"{oneRow.Key}-{oneRow.Value}");
+				}
+			}
+			else
+			{
+				Console.WriteLine("Dictionary is empty.");
 			}
 		}
 
@@ -239,17 +279,21 @@
 
 		/*!
 		* @brief Load dictionary from file
-		* @param[in] filePath File path
+		* @param[in] fileName File name
+		* @param[in] directory Directory with file
+		* @param[in] format File format
 		* @return True - file found and uploaded to dictionary; False -file not found.
 		*/
-		public bool LoadDictionaryFile(string filePath)
+		public bool LoadDictionaryFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge")
 		{
+			string filePath = Path.Combine(directory, fileName + format);
+
 			if (File.Exists(filePath)) //!< File opening check
-			{ 
+			{
 				foreach (string[] item in File.ReadAllLines(filePath).Select(line => line.Split('-')))
-				{  
-					this._dictionaryTranslate.Add(item[0], item[1]); 
-				} //!< Dictionary entry
+				{
+					this._dictionaryTranslate.Add(item[0], item[1]);
+				}
 
 				return true;
 			}
@@ -259,31 +303,30 @@
 
 		/*!
 		 * @brief Saving dictionary to file.
-		 * @param[in] Including fileName as new name of the saved file.
-		 * @param[in] Setting folderName and format as default manually.
+		 * @param[in] fileName Including fileName as new name of the saved file.
+		 * @param[in] directory Setting folderName and format as default manually.
+		 * @param[in] format Setting file format as default manually.
 		 * @return True - File was successfully saved; False - Error in saving file.
 		 */
-		public bool SaveFile(string fileName, string folderName = "DictionaryTranslate", string format = ".lge")
+		public bool SaveDataToFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge")
 		{
-			// Getting Path of File
-			string filePath = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName), fileName + format);
+			string filePath = Path.Combine(directory, fileName + format);
 
-			try
+			if (!File.Exists(filePath))
 			{
-				// Write dictionary to file
-				using (StreamWriter writer = new StreamWriter(filePath)) 
+				this.СreateFile(filePath, directory, format);
+
+				using (StreamWriter writer = new StreamWriter(filePath))
 				{
-					foreach (KeyValuePair<string, string> i in _dictionaryTranslate)
+					foreach (KeyValuePair<string, string> i in this._dictionaryTranslate)
 					{
 						writer.WriteLine($"{i.Key}-{i.Value}");
 					}
+
+					writer.Close();
 				}
 
 				return true;
-			}
-			catch (Exception problem)
-			{
-				Console.WriteLine($"Something went wrong in saving {fileName}. Error: {problem}.");
 			}
 
 			return false;
