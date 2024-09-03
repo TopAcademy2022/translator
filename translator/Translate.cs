@@ -20,10 +20,10 @@ namespace translator
 
 		public void PrintMenu()
 		{
-			const uint NUMBER_EXIT_MENU_ELEMENT = 9;
-			int numberMenuElement = 0;
+			const uint NUMBER_EXIT_MENU_ELEMENT = 10;
+			byte userInputSymbol = 0;
 
-			while (numberMenuElement != NUMBER_EXIT_MENU_ELEMENT)
+			while (userInputSymbol != NUMBER_EXIT_MENU_ELEMENT)
 			{
 				Console.Clear();
 				Console.WriteLine("Menu translator:");
@@ -35,20 +35,25 @@ namespace translator
 				Console.WriteLine("6. Load dictionary from file");
 				Console.WriteLine("7. Save dictionary to file");
 				Console.WriteLine("8. Print a dictionary to the console");
-				Console.WriteLine("9. Exit");
+				Console.WriteLine("9. Export word to out file");
+				Console.WriteLine("10. Exit");
 
 				Console.WriteLine("\nВыберите пункт меню:");
-				ConsoleKeyInfo userInputSymbol;
 
 				do
 				{
-					userInputSymbol = Console.ReadKey(true);
+					string? userInputSymb = Console.ReadLine();
+					foreach (char a in userInputSymb)
+					{
+						if (int.TryParse(userInputSymb, out int number) && Convert.ToInt32(userInputSymb) > 0 && Convert.ToInt32(userInputSymb) <= 10)
+						{
+							userInputSymbol = Convert.ToByte(userInputSymb);
+						}
+					}
 				}
-				while (userInputSymbol.Key < ConsoleKey.D0 || userInputSymbol.Key > ConsoleKey.D9);
+				while (userInputSymbol < 0 || userInputSymbol > 10);
 
-				numberMenuElement = Convert.ToInt32(userInputSymbol.KeyChar.ToString());
-
-				switch (numberMenuElement)
+				switch (userInputSymbol)
 				{
 					case 1:
 						Console.WriteLine("Set file name:");
@@ -177,6 +182,23 @@ namespace translator
 						this.PrintDictionary();
 
 						Console.ReadKey();
+						break;
+
+					case 9:
+						Console.WriteLine("Type in the word");
+						searchWord = Console.ReadLine();
+
+						Console.WriteLine("Set file name: ");
+						fileName = Console.ReadLine();
+
+						if (ExportWordFile(searchWord, fileName))
+						{
+							Console.WriteLine($"File '{fileName}' has been created.");
+						}
+						else
+						{
+							Console.WriteLine("Error, file not created.");
+						}
 						break;
 				}
 			}
@@ -324,6 +346,31 @@ namespace translator
 					}
 
 					writer.Close();
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+		/*!
+		 * @brief Export word to out file.
+		 * @param[in] wordUser The word that will be added to the file.
+		 * @param[in] fileName File name.
+		 */
+		public bool ExportWordFile(string wordUser, string fileName)
+		{
+			if (СreateFile(fileName)) //< Creating file
+			{
+				using (StreamWriter writer = new StreamWriter(fileName)) //< Write dictionary to file
+				{
+					foreach (KeyValuePair<string, string> i in this._dictionaryTranslate)
+					{
+						if (i.Key == wordUser)
+						{
+							writer.WriteLine($"{i.Key}-{i.Value}"); //< Export word to file
+						}
+					}
 				}
 
 				return true;
