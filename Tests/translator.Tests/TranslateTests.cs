@@ -10,10 +10,26 @@ namespace translator.Tests
 		{
 			Translate test = new Translate(); //< The creation of our class
 
-            string key = "hello";
+			string key = "hello";
 			test.AddWord(key, "привет"); //< Adding a word
 
-            Assert.True(test.FindWord(key) && test.DictionaryTranslate.ContainsKey(key)); //< Checking the search method
+			Assert.True(test.FindWord(key) && test.DictionaryTranslate.ContainsKey(key)); //< Checking the search method
+		}
+
+		[Fact]
+		/*!
+		 * @brief Checking the addword method
+		 */
+		public void AddWordTest()
+		{
+			Translate test = new Translate(); ///< The creation of our class
+
+			string word = "hello";
+			string translatedWord = "привет";
+
+			test.AddWord(word, translatedWord); ///< Adding a word
+
+			Assert.True(test.DictionaryTranslate.Count > 0); ///< Checking if word was added
 		}
 	}
 }
