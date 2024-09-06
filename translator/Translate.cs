@@ -27,7 +27,7 @@ namespace translator
 			{
 				Console.Clear();
 				Console.WriteLine("Menu translator:");
-				Console.WriteLine("1. Create tranlator");
+				Console.WriteLine("1. Create translator");
 				Console.WriteLine("2. Add word to dictionary");
 				Console.WriteLine("3. Replace word in dictionary");
 				Console.WriteLine("4. Delete word from dictionary");
@@ -37,7 +37,7 @@ namespace translator
 				Console.WriteLine("8. Print a dictionary to the console");
 				Console.WriteLine("9. Exit");
 
-				Console.WriteLine("\nВыберите пункт меню:");
+				Console.WriteLine("\nChoose an option:");
 				ConsoleKeyInfo userInputSymbol;
 
 				do
@@ -82,6 +82,7 @@ namespace translator
 						if (!String.IsNullOrEmpty(newWord) && !String.IsNullOrEmpty(translatedWord))
 						{
 							this.AddWord(newWord, translatedWord);
+							Console.WriteLine("Your word was successfully added.");
 						}
 						else
 						{
