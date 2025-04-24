@@ -11,7 +11,7 @@ namespace translator.Tests
 			Translate test = new Translate(); //< The creation of our class
 
 			string key = "hello";
-			test.AddWord(key, "ïğèâåò"); //< Adding a word
+			test.AddWord(key, "Ğ¿Ñ€Ğ¸Ğ²ĞµÑ‚"); //< Adding a word
 
 			Assert.True(test.FindWord(key) && test.DictionaryTranslate.ContainsKey(key)); //< Checking the search method
 		}
@@ -25,7 +25,7 @@ namespace translator.Tests
 			Translate test = new Translate(); ///< The creation of our class
 
 			string word = "hello";
-			string translatedWord = "ïğèâåò";
+			string translatedWord = "Ğ¿Ñ€Ğ¸Ğ²ĞµÑ‚";
 
 			test.AddWord(word, translatedWord); ///< Adding a word
 
@@ -40,7 +40,7 @@ namespace translator.Tests
             Translate test = new Translate();///< The creation of our class
 
 			string word = "hello";
-            string translatedWord = "ïğèâåò";
+            string translatedWord = "Ğ¿Ñ€Ğ¸Ğ²ĞµÑ‚";
 
 			test.AddWord(word, translatedWord);///< Adding a word to dictionary
             Assert.True(test.DictionaryTranslate.ContainsKey(word));///< Verifying word was added
