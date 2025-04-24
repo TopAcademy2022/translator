@@ -35,7 +35,7 @@ namespace translator.Tests
 		/*! 
 		* @brief Checking the Add test for DeleteWord method.
 		*/
-		public void AddTestForDeleteWord()
+		public void AddForDeleteWordTest()
 		{
             Translate test = new Translate();///< The creation of our class
 
