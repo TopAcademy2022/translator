@@ -22,14 +22,25 @@ namespace translator.Tests
 		 */
 		public void AddWordTest()
 		{
-			Translate test = new Translate(); ///< The creation of our class
+			Translate test = new Translate(); //< The creation of our class
 
 			string word = "hello";
 			string translatedWord = "привет";
 
 			test.AddWord(word, translatedWord); ///< Adding a word
 
-			Assert.True(test.DictionaryTranslate.Count > 0); ///< Checking if word was added
+			Assert.True(test.DictionaryTranslate.Count > 0); //< Checking if word was added
 		}
-	}
+
+        [Fact]
+        /*!
+		 * @brief Checking the addword method
+		 */
+        public void LoadDictionaryFileTest()
+		{
+            Translate test = new Translate();
+			
+            Assert.True(test.LoadDictionaryFile("file"));
+        }
+    }
 }
