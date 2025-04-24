@@ -91,7 +91,37 @@ namespace translator
 						Console.ReadKey();
 						break;
 
-					case 4:
+                    case 3:
+                        Console.WriteLine("Enter a file name to load:");
+                        string? loadFileName = Console.ReadLine();
+
+                        Console.WriteLine("Enter the path to the folder:");
+                        string? loadFileDirectory = Console.ReadLine();
+
+                        if (!String.IsNullOrEmpty(loadFileName) && !String.IsNullOrEmpty(loadFileDirectory))
+                        {
+                            if (СreateFile(fileName, destinationDirectory))
+                            {
+                                Console.WriteLine($"File '{fileName}' has been created.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Error, file not created.");
+                            }
+                        }
+
+                        Console.WriteLine("Enter a file name to save:");
+                        string? saveFileName = Console.ReadLine();
+
+                        Console.WriteLine("Enter the path to the folder:");
+                        string? saveFileDirectory = Console.ReadLine();
+
+
+
+                        Console.ReadKey();
+                        break;
+
+                    case 4:
 						Console.WriteLine("Enter delete world:");
 						string? deletedWord = Console.ReadLine();
 
