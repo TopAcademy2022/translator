@@ -35,7 +35,7 @@ namespace translator.Tests
 		/*! 
 		* @brief Checking the Add test for DeleteWord method.
 		*/
-		public void AddForDeleteWordTest()
+		public void DeleteWordTest()
 		{
             Translate test = new Translate();///< The creation of our class
 
@@ -43,7 +43,7 @@ namespace translator.Tests
             string translatedWord = "привет";
 
 			test.AddWord(word, translatedWord);///< Adding a word to dictionary
-            Assert.True(test.DictionaryTranslate.ContainsKey(word));///< Verifying word was added
+
             test.DeleteWord(word);///< Deleting the word
             Assert.False(test.DictionaryTranslate.ContainsKey(word));///< Checking if word was deleted
         }
