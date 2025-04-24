@@ -27,7 +27,7 @@ namespace translator
 			{
 				Console.Clear();
 				Console.WriteLine("Menu translator:");
-				Console.WriteLine("1. Create tranlator");
+				Console.WriteLine("1. Create translator");
 				Console.WriteLine("2. Add word to dictionary");
 				Console.WriteLine("3. Replace word in dictionary");
 				Console.WriteLine("4. Delete word from dictionary");

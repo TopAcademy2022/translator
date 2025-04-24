@@ -31,5 +31,22 @@ namespace translator.Tests
 
 			Assert.True(test.DictionaryTranslate.Count > 0); ///< Checking if word was added
 		}
-	}
+		[Fact]
+		/*! 
+		* @brief Checking the Add test for DeleteWord method.
+		*/
+		public void AddTestForDeleteWord()
+		{
+            Translate test = new Translate();///< The creation of our class
+
+			string word = "hello";
+            string translatedWord = "привет";
+
+			test.AddWord(word, translatedWord);///< Adding a word to dictionary
+            Assert.True(test.DictionaryTranslate.ContainsKey(word));///< Verifying word was added
+            test.DeleteWord(word);///< Deleting the word
+            Assert.False(test.DictionaryTranslate.ContainsKey(word));///< Checking if word was deleted
+        }
+
+    }
 }
