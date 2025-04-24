@@ -31,5 +31,14 @@ namespace translator.Tests
 
 			Assert.True(test.DictionaryTranslate.Count > 0); ///< Checking if word was added
 		}
-	}
+        [Fact]
+        public void FileCreateTest()
+        {
+            Translate test = new Translate(); ///< The creation of our class
+
+			test.ÑreateFile("test");
+
+            Assert.True(File.Exists("./DictionaryTranslate/test.lge")); ///< Checking if word was added
+		}
+    }
 }
