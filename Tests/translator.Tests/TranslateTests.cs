@@ -1,3 +1,5 @@
+using System.IO.Enumeration;
+
 namespace translator.Tests
 {
 	public class TranslateTests
@@ -31,5 +33,16 @@ namespace translator.Tests
 
 			Assert.True(test.DictionaryTranslate.Count > 0); ///< Checking if word was added
 		}
-	}
+
+        [Fact]
+		public void CreateFileTest()
+		{
+			Translate test = new Translate();
+			string filename = "test";
+
+
+            test.ÑreateFile(filename);
+			Assert.True(File.Exists("./DictionaryTranslate/test.lge"));
+        }
+    }
 }

@@ -53,7 +53,6 @@ namespace translator
 					case 1:
 						Console.WriteLine("Set file name:");
 						string? fileName = Console.ReadLine();
-
 						Console.WriteLine("Specify the path to the folder:");
 						string? destinationDirectory = Console.ReadLine();
 
@@ -62,6 +61,7 @@ namespace translator
 							if (СreateFile(fileName, destinationDirectory))
 							{
 								Console.WriteLine($"File '{fileName}' has been created.");
+								
 							}
 							else
 							{
