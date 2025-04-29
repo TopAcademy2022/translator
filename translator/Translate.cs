@@ -91,35 +91,6 @@ namespace translator
 						Console.ReadKey();
 						break;
 
-                    case 3:
-                        Console.WriteLine("Enter a file name to load:");
-                        string? loadFileName = Console.ReadLine();
-
-                        Console.WriteLine("Enter the path to the folder:");
-                        string? loadFileDirectory = Console.ReadLine();
-
-                        if (!String.IsNullOrEmpty(loadFileName) && !String.IsNullOrEmpty(loadFileDirectory))
-                        {
-                            if (СreateFile(fileName, destinationDirectory))
-                            {
-                                Console.WriteLine($"File '{fileName}' has been created.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Error, file not created.");
-                            }
-                        }
-
-                        Console.WriteLine("Enter a file name to save:");
-                        string? saveFileName = Console.ReadLine();
-
-                        Console.WriteLine("Enter the path to the folder:");
-                        string? saveFileDirectory = Console.ReadLine();
-
-
-
-                        Console.ReadKey();
-                        break;
 
                     case 4:
 						Console.WriteLine("Enter delete world:");
@@ -208,7 +179,7 @@ namespace translator
 
 						Console.ReadKey();
 						break;
-				}
+                }
 			}
 		}
 
@@ -361,5 +332,22 @@ namespace translator
 
 			return false;
 		}
-	}
+
+        public void SaveWordToFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge", string newWord, string translatedWord)
+        {
+            string filePath = Path.Combine(directory, fileName + format);
+
+            if (!File.Exists(filePath))
+            {
+                this.СreateFile(filePath, directory, format);
+            }
+
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine($"{newWord}-{translatedWord}");
+
+                writer.Close();
+            }
+        }
+    }
 }
