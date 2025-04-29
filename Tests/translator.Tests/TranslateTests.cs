@@ -73,11 +73,11 @@ namespace translator.Tests
             test.AddWord(word, translatedWord); ///< Adding a word
 			test.SaveDataToFile("test");
 
-            string? content = File.ReadLines(".\\DictionaryTranslate\\test.lge").FirstOrDefault();
+            string? content = File.ReadLines("DictionaryTranslate\\test.lge").FirstOrDefault();
 
             Assert.Equal(content, $"{word}-{translatedWord}");
 
-            File.Delete(".\\DictionaryTranslate\\test.lge");
+            File.Delete("DictionaryTranslate\\test.lge");
         }
     }
 }
