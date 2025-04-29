@@ -59,7 +59,7 @@ namespace translator
 
 						if (!String.IsNullOrEmpty(fileName) && !String.IsNullOrEmpty(destinationDirectory))
 						{
-							if (СreateFile(fileName, destinationDirectory))
+							if (CreateFile(fileName, destinationDirectory))
 							{
 								Console.WriteLine($"File '{fileName}' has been created.");
 							}
@@ -182,7 +182,7 @@ namespace translator
 			}
 		}
 
-		public bool СreateFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge")
+		public bool CreateFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge")
 		{
 			try
 			{
@@ -314,7 +314,7 @@ namespace translator
 
 			if (!File.Exists(filePath))
 			{
-				this.СreateFile(filePath, directory, format);
+				this.CreateFile(filePath, directory, format);
 
 				using (StreamWriter writer = new StreamWriter(filePath))
 				{
