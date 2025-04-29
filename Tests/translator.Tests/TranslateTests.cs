@@ -35,7 +35,7 @@ namespace translator.Tests
         public void FileCreateTest()
         {
             Translate test = new Translate(); ///< The creation of our class
-			test.ÑreateFile("test");
+			test.CreateFile("test");
 			Assert.True(File.Exists("./DictionaryTranslate/test.lge")); ///< Checking if word was added
 		}
     }
