@@ -333,7 +333,7 @@ namespace translator
 			return false;
 		}
 
-        public void SaveWordToFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge", string newWord, string translatedWord)
+        public void SaveWordToFile(string fileName, string newWord, string translatedWord, string directory = "./DictionaryTranslate", string format = ".lge")
         {
             string filePath = Path.Combine(directory, fileName + format);
 
