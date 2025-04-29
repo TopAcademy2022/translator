@@ -16,7 +16,7 @@ namespace translator
             this._dictionaryTranslate = new Dictionary<string, string>();
         }
 
-        public bool СreateFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge")
+        public bool CreateFile(string fileName, string directory = "./DictionaryTranslate", string format = ".lge")
         {
             try
             {
