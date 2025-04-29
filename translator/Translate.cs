@@ -91,7 +91,8 @@ namespace translator
 						Console.ReadKey();
 						break;
 
-					case 4:
+
+                    case 4:
 						Console.WriteLine("Enter delete world:");
 						string? deletedWord = Console.ReadLine();
 
@@ -178,7 +179,7 @@ namespace translator
 
 						Console.ReadKey();
 						break;
-				}
+                }
 			}
 		}
 
@@ -331,5 +332,20 @@ namespace translator
 
 			return false;
 		}
-	}
+
+        public void SaveWordToFile(string fileName, string newWord, string translatedWord, string directory = "./DictionaryTranslate", string format = ".lge")
+        {
+            string filePath = Path.Combine(directory, fileName + format);
+
+            if (!File.Exists(filePath))
+            {
+                this.CreateFile(filePath, directory, format);
+            }
+
+            using StreamWriter writer = new StreamWriter(filePath);
+            writer.WriteLine($"{newWord}-{translatedWord}");
+
+            writer.Close();
+        }
+    }
 }
