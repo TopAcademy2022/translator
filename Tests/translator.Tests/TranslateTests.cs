@@ -31,6 +31,7 @@ namespace translator.Tests
 
 			Assert.True(test.DictionaryTranslate.Count > 0); ///< Checking if word was added
 		}
+
 		[Fact]
 		/*! 
 		* @brief Checking the Add test for DeleteWord method.
@@ -48,5 +49,25 @@ namespace translator.Tests
             Assert.False(test.DictionaryTranslate.ContainsKey(word));///< Checking if word was deleted
         }
 
+        [Fact]
+        /*!
+		 * @brief Checking the addword method
+		 */
+        public void SaveDataToFileTest()
+        {
+            Translate test = new Translate(); ///< The creation of our class
+
+            string word = "hello";
+            string translatedWord = "привет";
+			
+            test.AddWord(word, translatedWord); ///< Adding a word
+			test.SaveDataToFile("test");
+
+			string? content = File.ReadLines(".\\DictionaryTranslate\\test.lge").FirstOrDefault();
+
+			Assert.Equal(content, $"{word}-{translatedWord}");
+
+            File.Delete(".\\DictionaryTranslate\\test.lge");
+		}
     }
 }
