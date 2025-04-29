@@ -56,7 +56,7 @@ namespace translator
 
                         if (!String.IsNullOrEmpty(fileName) && !String.IsNullOrEmpty(destinationDirectory))
                         {
-                            if (_translator.СreateFile(fileName, destinationDirectory))
+                            if (_translator.CreateFile(fileName, destinationDirectory))
                             {
                                 Console.WriteLine($"File '{fileName}' has been created.");
                             }

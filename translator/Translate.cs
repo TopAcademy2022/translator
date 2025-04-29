@@ -121,7 +121,7 @@ namespace translator
 
             if (!File.Exists(filePath))
             {
-                this.СreateFile(filePath, directory, format);
+                this.CreateFile(filePath, directory, format);
 
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
