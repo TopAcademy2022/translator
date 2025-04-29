@@ -45,7 +45,7 @@ namespace translator.Tests
 			test.AddWord(word, translatedWord);///< Adding a word to dictionary
 
             test.DeleteWord(word);///< Deleting the word
-            Assert.False(test.DictionaryTranslate.ContainsKey(word));///< Checking if word was deleted
+            Assert.Empty(test.DictionaryTranslate);///< Checking if word was deleted
         }
 
     }
