@@ -1,4 +1,7 @@
 ﻿using translator;
 
 Translate translate = new Translate();
-translate.PrintMenu();
+
+Menu menu = new Menu(translate);
+
+menu.PrintMenu();
